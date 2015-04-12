@@ -13,6 +13,7 @@
 #include<cstdint>
 
 #define PROFILING
+#define DEBUG
 
 using namespace std;
 using namespace std::chrono;
@@ -36,28 +37,19 @@ vector<string> list_files(string dirname) {
 }
 
 
-void process_file(string filename)
+void process_file(string& filename)
 {
     ifstream file;
     file.open(filename.c_str(), ifstream::in);
-    // word_pos: Stores next available position for insertion
     int word_pos = 0;
     char word[100];
-
     memset(word, 0, 100 * sizeof(char));
 
     for (char c = file.get(); file.good(); c = file.get()) {
         if (isalpha(c)) {
-            // Append the character to the word and 
-            // increment word_pos
             word[word_pos++] = c;
         } else {
-            // If word is detected
             if (word_pos > 0) {
-                cout << word << endl;
-                //In case the word appears in the beginning of a sentence,
-                //it should be converted to lowercase.
-                //Ex: 'Stay' should also match with query 'stay'
                 insert_word(word, &filename);
                 word_pos = 0;
                 memset(word, 0, 100 * sizeof(char));
@@ -71,11 +63,11 @@ void process_file(string filename)
     file.close();
 }
 
-long profile(function<void(void)> func) {
+double profile(function<void(void)> func) {
     auto start = high_resolution_clock::now();
     func();
     auto finish = high_resolution_clock::now();
-    return duration_cast<nanoseconds>(finish - start).count();
+    return duration_cast<nanoseconds>(finish - start).count() / 10e3;
 }
 
 string get_dir() {
@@ -95,20 +87,22 @@ int main(int argc, char **argv)
     };
 
 #ifdef PROFILING
-    cout << "Took " << profile(process) << "nanoseconds to build tree" << endl;
+    cout << "**Took " << profile(process) << "us to build search index." << endl;
 #else
     process();
 #endif
     string query;
     search_result result;
+    cout << "**Enter :q to stop at anytime.**" << endl;
     do {
-        cout << "Enter a search query (:q to stop): " << endl;
+
+        cout << "Enter search query: ";
         cin >> query;
         auto query_index = [&query, &result] () {
             result = search(query);
         };
 #ifdef PROFILING
-        cout << "Took " << profile(query_index) << "nanoseconds to query tree" << endl;
+        cout << "**Took " << profile(query_index) << "us to query tree" << endl;
 #else
         query_index();
 #endif

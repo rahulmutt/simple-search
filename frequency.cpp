@@ -40,7 +40,11 @@ search_result search(string query) {
 }
 
 void print(search_result result) {
-    for (auto &it : result) {
-        cout << *(it.second) << ": " << it.first << " results." << endl;
+    if (result.size() <= 0) {
+        cout << "Not found." << endl;
+    } else {
+        for (auto &it : result) {
+            cout << (*(it.second)) << ": " << it.first << " results." << endl;
+        }
     }
 }
