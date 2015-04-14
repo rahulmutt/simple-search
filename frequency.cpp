@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #include <cstring>
-#include "frequency.h"
+#include "frequency.hpp"
 
 hash_tree frequency_map;
 

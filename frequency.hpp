@@ -1,5 +1,5 @@
-#ifndef __FREQUENCY__H__
-#define __FREQUENCY__H__
+#ifndef __FREQUENCY__HPP__
+#define __FREQUENCY__HPP__
 #include<cstdint>
 #include<map>
 #include<vector>

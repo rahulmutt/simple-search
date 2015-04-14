@@ -1,16 +1,9 @@
-CC=g++
-CFLAGS=-c -Wall -std=c++0x
-SOURCES=frequency.cpp se.cpp
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=search
-
-all: $(SOURCES) $(EXECUTABLE)
-
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
-
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+CXX=g++
+INPUT=main.cpp frequency.cpp cli.cpp gui.cpp common.cpp
+CFLAGS=-std=c++11 `pkg-config --cflags --libs gtkmm-3.0`
+OUTPUT=search
+all:
+	$(CXX) -o $(OUTPUT) $(INPUT) $(CFLAGS)
 
 clean:
 	rm *.o search
