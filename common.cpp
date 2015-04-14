@@ -15,12 +15,16 @@ vector<string> list_files(string& dirname) {
     if (target == NULL) {
         cout << "Error: " << strerror(errno) << endl;
     } else {
+        /* cout << "Listing Directories..." << endl; //@DEBUG */
         for (dirent *entry = readdir(target); 
              entry != NULL ;
              entry = readdir(target)) {
+            /* cout << entry->d_name << endl; //@DEBUG */
             if (entry->d_name[0] == '.') continue;
             filenames.push_back(dirname + "/" + string(entry->d_name));
         }
+        /* cout << "Done..." << endl; //@DEBUG */
+        closedir(target);
     }
     return filenames;
 } 
