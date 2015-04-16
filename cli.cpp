@@ -7,8 +7,18 @@
 #include<algorithm>
 
 using namespace std;
-
+// *zammydragon!
 vector<string> files; //@TODO: CHECK ONCE!
+
+void print(SearchResult result) {
+    if (result.size() <= 0) {
+        cout << "Not found." << endl;
+    } else {
+        for (auto &it : result) {
+            cout << (*(it.second)) << ": " << it.first << " results." << endl;
+        }
+    }
+}
 
 int search_cli(int argc, char **argv) {
     string dirname = get_dir();
