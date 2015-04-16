@@ -4,13 +4,22 @@
 #include<gtkmm/treemodelcolumn.h>
 using namespace Gtk;
 
-class ModelColumns : public TreeModelColumnRecord
+class FileColumns : public TreeModelColumnRecord
 {
 public:
-    ModelColumns();
+    FileColumns();
+    TreeModelColumn<Glib::ustring> mFile;
+};
+
+extern FileColumns mFileColumns;
+
+class ResultColumns : public TreeModelColumnRecord
+{
+public:
+    ResultColumns();
     TreeModelColumn<Glib::ustring> mFile;
     TreeModelColumn<int> mHits;
 };
 
-extern ModelColumns mColumns;
+extern ResultColumns mResultColumns;
 #endif

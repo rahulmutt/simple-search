@@ -20,7 +20,7 @@ vector<string> list_immediate_files(string const& dirname) {
              entry != NULL ;
              entry = readdir(target)) {
             if (entry->d_name[0] == '.' ||
-                !(entry->d_type & DT_DIR)) continue;
+                (entry->d_type & DT_DIR)) continue;
             filenames.push_back(dirname + "/" + string(entry->d_name));
         }
         closedir(target);

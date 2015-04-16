@@ -8,11 +8,15 @@ CoreEngine::CoreEngine() {}
 
 CoreEngine::~CoreEngine() {}
 
+int CoreEngine::num_files() {
+    return mFiles.size();
+}
+
 vector<string> CoreEngine::populate(string const& dirname) {
     vector<string> files = list_immediate_files(dirname);
     mFiles.insert(mFiles.end(), files.begin(), files.end());
-    for (auto& file : files) {
-        process_file(file);
+    for (auto iter = mFiles.end() - files.size(); iter != mFiles.end(); iter++) {
+        process_file(*iter);
     }
     return files;
 }

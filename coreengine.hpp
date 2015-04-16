@@ -12,6 +12,7 @@ public:
     ~CoreEngine();
     vector<string> populate(string const& dirname);
     search_result search(string const& query);
+    int num_files();
 private:
     void process_file(string& filename);
     FrequencyMap mMap;

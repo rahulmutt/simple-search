@@ -3,6 +3,7 @@
 #include "coreengine.hpp"
 
 #include <string>
+#include <sstream>
 #include <glibmm/refptr.h>
 #include <gtkmm/application.h>
 #include <gtkmm/window.h>
@@ -11,6 +12,7 @@
 #include <gtkmm/entry.h>
 #include <gtkmm/treemodel.h>
 #include <gtkmm/treestore.h>
+#include <gtkmm/liststore.h>
 #include <gtkmm/filechooserdialog.h>
 #include <gtkmm/statusbar.h>
 using namespace std;
@@ -25,16 +27,19 @@ public:
 private:
     void init_bindings();
     void on_click_dir();
+    void on_text_changed();
+    void add_files(string const& dirname, vector<string> const& files);
     void print_status(string const& status);
     RefPtr<Application> mApp;
     RefPtr<Builder> mBuilder;
     Window* mWindow;
     Entry* mEntry;
     TreeView* mTreeView;
-    RefPtr<TreeStore> mTreeModel;
+    RefPtr<ListStore> mResultModel;
+    RefPtr<TreeStore> mFileModel;
     Button* mDirButton;
     Statusbar* mStatusbar;
-
     CoreEngine engine;
+    ostringstream out;
 };
 #endif
