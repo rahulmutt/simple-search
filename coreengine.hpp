@@ -10,10 +10,12 @@ class CoreEngine {
 public:
     CoreEngine();
     ~CoreEngine();
-    vector<string> populate(string&& dirname):
+    vector<string> populate(string const& dirname);
+    search_result search(string const& query);
 private:
     void process_file(string& filename);
     FrequencyMap mMap;
+    vector<string> mFiles;
 };
 #endif
 

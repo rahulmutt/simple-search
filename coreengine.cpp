@@ -8,11 +8,17 @@ CoreEngine::CoreEngine() {}
 
 CoreEngine::~CoreEngine() {}
 
-vector<string> CoreEngine::populate(string& dirname) {
+vector<string> CoreEngine::populate(string const& dirname) {
     vector<string> files = list_immediate_files(dirname);
+    mFiles.insert(mFiles.end(), files.begin(), files.end());
     for (auto& file : files) {
         process_file(file);
     }
+    return files;
+}
+
+search_result CoreEngine::search(string const& query) {
+    return mMap.search(query);
 }
 
 void CoreEngine::process_file(string& filename) {

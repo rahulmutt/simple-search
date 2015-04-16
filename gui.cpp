@@ -1,12 +1,10 @@
 #include "gui.hpp"
 #include "model.hpp"
+#include <glibmm/ustring.h>
 #include <gtkmm/treeiter.h>
-#include <string>
+#include<iostream>
 
-using namespace std;
-using namespace Gtk;
-
-GuiApp::GuiApp(int argc, char** argv, string&& pGladeFile) {
+GuiApp::GuiApp(int argc, char** argv, string const& pGladeFile) {
     mApp = Application::create(argc, argv, "org.gtkmm.examples.base");
     mBuilder = Builder::create_from_file(pGladeFile);
     init_bindings();
@@ -48,10 +46,9 @@ void GuiApp::init_bindings() {
 
     //Initialize Statusbar
     mBuilder->get_widget("main_status", mStatusbar);
-    print_status(string("My love"));
 }
 
-void GuiApp::print_status(string&& status) {
+void GuiApp::print_status(string const& status) {
     mStatusbar->push(status);
 }
 
@@ -63,22 +60,28 @@ void GuiApp::on_click_dir() {
 
     int result = dialog.run();
 
+    cout << "Result: " << result << endl; //DEBUG
     switch (result) {
         case RESPONSE_OK:
-            string dirname = dialog.get_filename();
-            vector<string> files = engine.populate(dirname);
-            // @TODO: Populate Data Model
-            TreeModel::Row dir = *(mTreeModel->append());
-            dir[mColumns.mFile] = dirname;
-            dir[mColumns.mHits] = 0;
+            {
+                string dirname = dialog.get_filename();
+                vector<string> files = engine.populate(dirname);
+                cout << "Populated" << endl; //DEBUG
 
-            for (auto& file : files) {
-                TreeModel::Row file = *(mTreeModel->append(dir.children()));
-                file[mColumns.mFile] = file;
-                file[mColumns.mHits] = 0;
+                // @TODO: Populate Data Model
+                TreeModel::Row dir = *(mTreeModel->append());
+                dir[mColumns.mFile] = dirname;
+                dir[mColumns.mHits] = 0;
+
+                for (auto& filename : files) {
+                    cout << "Filename: " << filename << endl; //DEBUG
+                    TreeModel::Row file = *(mTreeModel->append(dir.children()));
+                    file[mColumns.mFile] = ustring(filename);
+                    file[mColumns.mHits] = 0;
+                }
+
+                print_status(dirname);
             }
-
-            print_status(dirname);
             break;
         case RESPONSE_CANCEL:
             print_status("Canceled");

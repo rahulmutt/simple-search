@@ -3,7 +3,6 @@
 #include<cerrno>
 #include<dirent.h>
 
-using namespace std;
 using namespace std::chrono;
 
 double profile(function<void(void)> func) {
@@ -13,7 +12,7 @@ double profile(function<void(void)> func) {
     return duration_cast<nanoseconds>(finish - start).count() / 10e3;
 }
 
-vector<string> list_immedate_files(string& dirname) {
+vector<string> list_immediate_files(string const& dirname) {
     vector<string> filenames;
     DIR *target = opendir(dirname.c_str());
     if (target != NULL) {

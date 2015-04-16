@@ -1,16 +1,10 @@
 #include "cli.hpp"
-#include "frequency.hpp"
-#include "common.hpp"
+#include "utility.hpp"
 #include<iostream>
 #include<vector>
-#include<string>
 #include<algorithm>
 
-using namespace std;
-// *zammydragon!
-vector<string> files; //@TODO: CHECK ONCE!
-
-void print(SearchResult result) {
+void CliApp::print(search_result result) {
     if (result.size() <= 0) {
         cout << "Not found." << endl;
     } else {
@@ -20,11 +14,10 @@ void print(SearchResult result) {
     }
 }
 
-int search_cli(int argc, char **argv) {
+int CliApp::run() {
     string dirname = get_dir();
-    vector<string> files = list_files(dirname);
-    auto process = [&files]() {
-        for_each(files.begin(), files.end(), process_file);
+    auto process = [this, &dirname]() {
+        this->engine.populate(dirname);
     };
 
 #ifdef PROFILING
@@ -39,8 +32,8 @@ int search_cli(int argc, char **argv) {
 
         cout << "Enter search query: ";
         cin >> query;
-        auto query_index = [&query, &result] () {
-            result = search(query);
+        auto query_index = [this, &query, &result] () {
+            result = this->engine.search(query);
         };
 #ifdef PROFILING
         cout << "**Took " << profile(query_index) << "us to query tree" << endl;
@@ -55,7 +48,11 @@ int search_cli(int argc, char **argv) {
     return 0;
 }
 
-string get_dir() {
+CliApp::CliApp(int argc, char **argv) {}
+CliApp::~CliApp() {}
+
+
+string CliApp::get_dir() {
     string dirname;
     cout << "Enter directory: ";
     getline(cin, dirname);

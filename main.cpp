@@ -2,11 +2,13 @@
 #include "gui.hpp"
 #include<string>
 
+using namespace std;
+
 int main(int argc, char **argv)
 {
     if (argc > 1) {
-        return search_cli(argc, argv);
+        return CliApp(argc, argv).run();
     } else {
-        return GuiApp(argc, argv, std::string("main.glade")).run();
+        return GuiApp(argc, argv, string("main.glade")).run();
     }
 }
