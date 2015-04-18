@@ -1,6 +1,6 @@
 # Simple Search
 ## Installation
-The program comes in two flavors - a command line-version and a gui versiono
+The program comes in two flavors - a command line-version and a gui version.
 ### Dependencies
 First you must install `pkg-config` and `gtkmm 3.0` to build the application.
 #### On Debian/Ubuntu 
