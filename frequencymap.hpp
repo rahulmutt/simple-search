@@ -1,6 +1,7 @@
 #ifndef __FREQUENCY_MAP__HPP__
 #define __FREQUENCY_MAP__HPP__
 #include<cstdint>
+#include<unordered_map>
 #include<map>
 #include<vector>
 using namespace std;

@@ -20,11 +20,7 @@ int CliApp::run() {
         this->engine.populate(dirname);
     };
 
-#ifdef PROFILING
     cout << "**Took " << profile(process) << "us to build search index." << endl;
-#else
-    process();
-#endif
     string query;
     search_result result;
     cout << "**Enter :q to stop at anytime.**" << endl;
@@ -35,11 +31,7 @@ int CliApp::run() {
         auto query_index = [this, &query, &result] () {
             result = this->engine.search(query);
         };
-#ifdef PROFILING
-        cout << "**Took " << profile(query_index) << "us to query tree" << endl;
-#else
-        query_index();
-#endif
+        cout << "**Took " << profile(query_index) << "us to query tree." << endl;
         print(result);
 
     } while (query != ":q");
